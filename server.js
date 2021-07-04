@@ -5,7 +5,7 @@ const bodyParser=require("body-parser");
 const app = express();
 const dotenv=require('dotenv');
 require('dotenv').config({path: 'keys.env'});
-const HTTP_PORT = 5000 || process.env.PORT;
+const HTTP_PORT = process.env.PORT;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("./public"));
 app.set("view engine", "hbs");
