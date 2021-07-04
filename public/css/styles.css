@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Monoton&display=swap");
+.navbar {
+  background: transparent;
+  z-index: 1 !important;
+}
+.nav-item {
+  font-family: "Monoton", cursive;
+  color: #111d5e !important;
+  text-transform: uppercase !important;
+  font-size: 20px;
+  padding-right: 40px !important;
+}
+.nav-item:hover {
+  transform: scale(1.5) !important;
+}
+.nav-link {
+  cursor: pointer !important;
+}
+.navbar-brand:hover {
+  transform: scale(1.25) !important;
+}
+.hero {
+  background: url("/img/annie-spratt-qyAka7W5uMY-unsplash.jpg") no-repeat center
+    center;
+  background-size: cover;
+  margin-top: -130px;
+  z-index: -1 !important;
+  opacity: 0.8 !important;
+}
+.col-lg-7.text-center.text-lg-start.text-white {
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+.container.col-xxl-8.px-4.py-5.host {
+  background: linear-gradient(90deg, black, transparent),
+    url("/img/roomrental.jpeg") no-repeat right center !important;
+  background-size: cover !important;
+  border-radius: 25px !important;
+}
+.footer {
+  background-color: #ededed !important;
+}
+.footer {
+  color: #da0037 !important;
+}
+.footer h1 h2 h3 h4 h5 h6 {
+  color: #da0037;
+}
+footer a {
+  color: #da0037 !important;
+}
+footer .text-center {
+  color: #da0037;
+}
+a.btn .btn-link {
+  text-decoration: none !important;
+}
+.ftrlnk {
+  text-decoration: none !important;
+}
+.card.d-flex.flex-column.mt-3.mb-3.mr-3.ml-3:hover{
+  cursor: pointer !important;
+  transform: scale(1.1) !important;
+}
+.card.card-cover.h-100.overflow-hidden.text-white.bg-dark.rounded-5.shadow-lg:hover{
+  cursor: pointer !important;
+  transform: scale(1.1) !important;
+}

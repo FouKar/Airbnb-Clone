@@ -1,0 +1,405 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+
+
+    <link rel="icon" href="/img/favicon.png" />
+    <title>Igloo</title>
+
+  </head>
+  <body>
+{{>header}}
+<div class="modal" tabindex="-1" id="loginModal" role="dialog">
+<div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content rounded">
+            <div class="modal-header ">
+                <h5 class="modal-title pt-2 mx-auto">Log In Account</h5>
+            </div>
+            <div class="modal-body">
+                <h4 class = "mt-3 text-center" style="color: #C82433 !important;">Sign in to Igloo and Book your Room!</h4>
+    
+                <form action="/login" method="POST">
+                    <div  class="form-group d-flex flex-column mr-5 ml-5 mt-5">
+                        <input type="email" class="form-control pb-3 pt-3 pl-3" name="emailLog" id="emailInputFour"
+                            aria-describedby="emailHelp" placeholder="Enter email" 
+                            >
+          
+    
+                        <input type="password" class="form-control pb-3 pt-3 pl-3 mt-3" name="passLog" id="passInputFive"
+                            placeholder="Enter password"  >
+                   
+                        <a  href="/" class="btn btn-link text-left" style="text-decoration: none !important;" id="forgotPass">Forgot your password?</a>    
+                        <input type="submit"  value="SIGN IN" class="btn btn-danger pt-3 pb-3 mb-3 "></input>
+                        <button type="button" data-toggle="modal" data-target="#registerModal" data-dismiss="modal" class="btn btn-outline-danger pt-3 pb-3 signinC">Create a New Account</button>
+    
+                <div class="d-flex flex-row justify-content-between mt-4">
+                    <button type="button submit" class="btn pt-3 pb-3 "
+                        style="color:white !important; background-color: #DB4437 !important;"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                      <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"/>
+                    </svg> Login Google</button>
+                        <button type="button submit" class="btn pt-3 pb-3 "
+                        style="color:white !important; background-color: #3b5998 !important;"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                      <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                    </svg>
+                      Login Facebook</button>
+                </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
+<div class="modal" tabindex="-1" id="registerModal" role="dialog">
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title mx-auto">Sign Up Now!</h5>
+
+    </div>
+    <div class="modal-body">
+      <div class="d-flex">
+        <h3 class="mt-3 mx-auto" style="color: #C82433 !important;">Create a New
+          Account</h3>
+      </div>
+
+      <form action="/reg" method="POST">
+        <div class="form-group d-flex flex-column mr-5 ml-5 mt-4">
+          <input
+            type="email"
+            class="form-control pb-3 pt-3 pl-3 mt-3"
+            name="emailLogReg"
+            id="emailInputF"
+            aria-describedby="emailHelp"
+            placeholder="Enter email"
+            autocomplete="email"
+          />
+          {{#if eMErr}}
+            <small id="emailHelpBlock" class="form-text text-danger">
+              {{eMErr}}
+            </small>
+          {{/if}}
+
+          <input
+            type="text"
+            class="form-control pb-3 pt-3 pl-3 mt-3"
+            name="fName"
+            id="fNmT"
+            placeholder="First Name"
+          />
+          {{#if fNmErr}}
+            <small
+              id="firstnameHelpBlock"
+              class="ml-2 d-flex flex-wrap flex-row form-text text-danger"
+            >
+              {{fNmErr}}
+            </small>
+          {{/if}}
+
+          <input
+            type="text"
+            class="form-control pb-3 pt-3 pl-3 mt-3"
+            name="lName"
+            id="lNmT"
+            placeholder="Last Name"
+          />
+          {{#if lNmErr}}
+            <small
+              id="lastnameHelpBlock"
+              class="d-flex flex-wrap flex-row form-text text-danger"
+            >
+              {{lNmErr}}
+            </small>
+          {{/if}}
+
+          <input
+            type="tel"
+            class="form-control pb-3 pt-3 pl-3 mt-3"
+            name="phone"
+            id="phoneNumT"
+            placeholder="Enter Phone Number"
+            autocomplete="tel"
+          />
+          {{#if phoneErr}}
+            <small id="telephoneHelpBlock" class="form-text text-danger">
+              {{phoneErr}}
+            </small>
+          {{/if}}
+
+          <input
+            type="password"
+            class="form-control pb-3 pt-3 pl-3 mt-3"
+            name="passLogReg"
+            id="passInputFive"
+            placeholder="Create a password"
+            autocomplete="current-password"
+          />
+          {{#if passErr}}
+            <small id="passwordHelpBlock" class="form-text text-danger">
+              {{passErr}}
+            </small>
+          {{/if}}
+
+          <a
+            href="/"
+            class="btn btn-link text-left"
+            style="text-decoration: none !important;"
+            id="forgotPassT"
+          >Forgot your password?</a>
+          <h6 class="mt-2">Birthday</h6>
+          <p>To sign up, you need to be at least 18. Other people who use Igloo
+            won't see your birthday</p>
+          <div class="form-inline">
+
+            <select class="form-control" name="bmon" id="month">
+              <option value="">Month</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+            </select>
+            <div class="form-group ml-3">
+              <select class="form-control" name="bday" id="day" placeholder="Day">
+                <option value="">Day</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+              </select>
+            </div>
+            <div class="form-group ml-3">
+              <select class="form-control" name="bYr" id="Year" placeholder="Year">
+                <option value="">Year</option>
+                <option value="2021">2021</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2014">2014</option>
+                <option value="2013">2013</option>
+                <option value="2012">2012</option>
+                <option value="2011">2011</option>
+                <option value="2010">2010</option>
+                <option value="2009">2009</option>
+                <option value="2008">2008</option>
+                <option value="2007">2007</option>
+                <option value="2006">2006</option>
+                <option value="2005">2005</option>
+                <option value="2004">2004</option>
+                <option value="2003">2003</option>
+                <option value="2002">2002</option>
+                <option value="2001">2001</option>
+                <option value="2000">2000</option>
+                <option value="1999">1999</option>
+                <option value="1998">1998</option>
+                <option value="1997">1997</option>
+                <option value="1996">1996</option>
+                <option value="1995">1995</option>
+                <option value="1994">1994</option>
+                <option value="1993">1993</option>
+                <option value="1992">1992</option>
+                <option value="1991">1991</option>
+                <option value="1990">1990</option>
+                <option value="1989">1989</option>
+                <option value="1987">1987</option>
+                <option value="1986">1986</option>
+                <option value="1985">1985</option>
+                <option value="1984">1984</option>
+                <option value="1983">1983</option>
+                <option value="1982">1982</option>
+                <option value="1981">1981</option>
+                <option value="1980">1980</option>
+                <option value="1979">1979</option>
+                <option value="1978">1978</option>
+                <option value="1976">1976</option>
+                <option value="1975">1975</option>
+                <option value="1974">1974</option>
+                <option value="1973">1973</option>
+                <option value="1972">1972</option>
+                <option value="1971">1971</option>
+                <option value="1970">1970</option>
+                <option value="1969">1969</option>
+                <option value="1968">1968</option>
+                <option value="1967">1967</option>
+                <option value="1966">1966</option>
+                <option value="1965">1965</option>
+                <option value="1964">1964</option>
+                <option value="1963">1963</option>
+                <option value="1962">1962</option>
+                <option value="1961">1961</option>
+                <option value="1960">1960</option>
+                <option value="1959">1959</option>
+                <option value="1958">1958</option>
+                <option value="1957">1957</option>
+                <option value="1956">1956</option>
+                <option value="1955">1955</option>
+                <option value="1954">1954</option>
+                <option value="1953">1953</option>
+                <option value="1952">1952</option>
+                <option value="1951">1951</option>
+                <option value="1950">1950</option>
+                <option value="1949">1949</option>
+                <option value="1948">1948</option>
+                <option value="1947">1947</option>
+                <option value="1946">1946</option>
+                <option value="1945">1945</option>
+                <option value="1943">1943</option>
+                <option value="1942">1942</option>
+                <option value="1941">1941</option>
+                <option value="1940">1940</option>
+                <option value="1939">1939</option>
+                <option value="1938">1938</option>
+                <option value="1937">1937</option>
+                <option value="1936">1936</option>
+                <option value="1935">1935</option>
+                <option value="1934">1934</option>
+                <option value="1933">1933</option>
+                <option value="1932">1932</option>
+                <option value="1931">1931</option>
+                <option value="1930">1930</option>
+                <option value="1929">1929</option>
+                <option value="1928">1928</option>
+                <option value="1927">1927</option>
+                <option value="1926">1926</option>
+                <option value="1925">1925</option>
+                <option value="1924">1924</option>
+                <option value="1923">1923</option>
+                <option value="1922">1922</option>
+                <option value="1921">1921</option>
+              </select>
+            </div>
+          </div>
+          {{#if bmonErr}}
+                <small id="bmonHelpBlock" class="form-text text-danger">
+              {{bmonErr}}
+            </small>
+            {{/if}}
+              {{#if bdayErr}}
+                <small id="bdayHelpBlock" class="form-text text-danger">
+              {{bdayErr}}
+            </small>
+            {{/if}}
+              {{#if bYrErr}}
+                <small id="bYrHelpBlock" class="form-text text-danger">
+              {{bYrErr}}
+            </small>
+            {{/if}}
+          <div class="form-check pt-4">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="tos"
+              id="flexCheckDefaultT"
+              name="ckBox"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              I certify that I am at least 18 years old and that I agree to the
+              Terms and Policies and Privacy Policy.
+            </label>
+          </div>
+          {{#if cBoxErr}}
+            <small id="checkboxHelpBlock" class="form-text text-danger">
+              {{cBoxErr}}
+            </small>
+          {{/if}}
+
+          <button
+            type="submit"
+            class="btn btn-danger mt-4 pt-3 pb-3 mb-3 signin"
+          >Sign Up</button>
+
+          <h5 class="mt-2" style="color: #111D5E !important">Or Sign Up With</h5>
+          <div class="d-flex flex-row justify-content-between mt-1">
+            <button
+              type="button submit"
+              class="btn pt-3 pb-3"
+              style="color:white !important; background-color: #DB4437 !important;"
+            ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill="currentColor"
+                class="bi bi-google"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"
+                ></path>
+              </svg>
+              Login Google</button>
+            <button
+              type="button submit"
+              class="btn pt-3 pb-3"
+              style="color:white !important; background-color: #3b5998 !important;"
+            ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill="currentColor"
+                class="bi bi-facebook"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"
+                ></path>
+              </svg>
+              Login Facebook</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+    </div>
+{{{body}}}
+{{>footer}}
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
