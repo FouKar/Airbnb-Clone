@@ -160,8 +160,9 @@ const msg = {
   from: 'fouzan.mdkarim@gmail.com', // Change to your verified sender
   subject: 'Igloo Login Credentials',
   text: `${inData.fN} ${inData.lN}, Here is your username and password:`,
-  html: `Email: <strong>${inData.eM}</strong>
-         Password: <strong>${inData.pass}</strong>`,
+  html: `Email: <strong>${inData.eM}</strong><br>
+         Password: <strong>${inData.pass}</strong>
+         Phone ${inData.phoneNum}`,
 }
 sgMail
   .send(msg)
