@@ -3,6 +3,7 @@ const exphbs = require("express-handlebars");
 const roomDb = require("./model/rooms.js");
 const bodyParser=require("body-parser");
 const app = express();
+require('dotenv').config();
 const HTTP_PORT = 5000 || process.env.PORT;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("./public"));
@@ -151,7 +152,24 @@ app.post("/reg",(req,res)=>{
   });
   registration
     .then((inData) => {
-      
+      const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const msg = {
+  to: `${inData.eM}`, // Change to your recipient
+  from: 'fouzan.mdkarim@gmail.com', // Change to your verified sender
+  subject: 'Igloo Login Credentials',
+  text: `${inData.fN} ${inData.lN}, Here is your username and password:`,
+  html: `Email: <strong>${inData.eM}</strong>
+         Password: <strong>${inData.pass}</strong>`,
+}
+sgMail
+  .send(msg)
+  .then(() => {
+    console.log('Email sent')
+  })
+  .catch((error) => {
+    console.error(error)
+  })
       res.render("dashboard",{
         em:inData.eM,
         fName: inData.fN,
