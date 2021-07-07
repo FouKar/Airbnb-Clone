@@ -157,7 +157,7 @@ app.post("/reg",(req,res)=>{
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const msg = {
   to: `${inData.eM}`, // Change to your recipient
-  from: 'fouzan.mdkarim@gmail.com', // Change to your verified sender
+  from: process.env.email, // Change to your verified sender
   subject: 'Igloo Login Credentials',
   text: `${inData.fN} ${inData.lN}, Here is your username and password:`,
   html: `Email: <strong>${inData.eM}</strong><br>
