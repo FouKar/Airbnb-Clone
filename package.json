@@ -10,12 +10,25 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.4.5",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.3.2",
+    "express-session": "^1.17.2",
+    "express-sessions": "^1.0.6",
+    "mongoose": "^5.13.4",
+    "multer": "^1.4.2",
     "nodemon": "^2.0.7"
   },
   "devDependencies": {},
-  "description": ""
+  "description": "Assignment 2 for WEB322",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FouKar/Web322-A2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FouKar/Web322-A2/issues"
+  },
+  "homepage": "https://github.com/FouKar/Web322-A2#readme"
 }

@@ -1,5 +1,9 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
+const session=require("express-session");
+const multer = require("multer");
+const mongoose=require("mongoose");
+const bcrypt=require("bcrypt");
 const roomDb = require("./model/rooms.js");
 const bodyParser=require("body-parser");
 const app = express();
@@ -8,6 +12,7 @@ require('dotenv').config({path: 'keys.env'});
 const HTTP_PORT = process.env.PORT;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("./public"));
+
 app.set("view engine", "hbs");
 app.engine(
   "hbs",
@@ -15,6 +20,15 @@ app.engine(
     extname: "hbs",
   })
 );
+app.use(session({
+  secret:`${process.env.SECRET_KEY}`,
+  resave:false,
+  saveUninitialized: true,
+  //cookie: {secure:true}-> Only works for HTTPS. We are using The HTTP Protocol
+}));
+app.use((req,res,next)=>{
+  res.locals.user=req.session.userInfo;
+})
 app.get("/", (req, res) => {
   res.render("home", {
     data: roomDb.room,
