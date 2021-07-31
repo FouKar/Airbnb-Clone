@@ -29,6 +29,7 @@ app.use(session({
 }));
 app.use((req,res,next)=>{
   res.locals.user=req.session.userInfo;
+  next();
 });
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("./public"));
@@ -63,3 +64,4 @@ app.listen(HTTP_PORT, () => {
     console.log(`Error ${err}`);
   });
 });
+

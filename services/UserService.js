@@ -23,13 +23,15 @@ exports.processUserFormData=(req,res)=>{
         lastName:req.body.lName,
         telephone:req.body.phone,
         email:req.body.emailLogReg,
-        password:req.body.passLogReg
+        password:req.body.passLogReg,
+        birthday:req.body.bday+'-'+req.body.bmon+'-'+req.body.bYr
     };
     const user=userModel(newUser);
     
     userModel.findOne({email:req.body.emailLogReg}).then((quser)=>{
         if(quser===null){
             user.save().then(()=>{
+                req.session.userInfo=user;
                 res.redirect("/User/dashboard");
             });
         } else{
@@ -48,7 +50,6 @@ exports.processLogin=(req,res)=>{
     userModel.findOne({email:req.body.emailLog}).then((user)=>{
         if(user==null){
             res.render("User/login",{
-                emErr: "Email and/or password is incorrect",
                 pErr:"Email and/or password is incorrect"
             });
         } else{
@@ -58,7 +59,6 @@ exports.processLogin=(req,res)=>{
                     res.redirect("/User/dashboard");
                 } else{
                     res.render("User/login",{
-                        emErr: "Email and/or password is incorrect",
                         pErr: "Email and/or password is incorrect"
                     });
                 }

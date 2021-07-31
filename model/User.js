@@ -27,6 +27,10 @@ const userSchema = new Schema({
     type:{
         type:String,
         default: "User"
+    },
+    birthday:{
+        type:String,
+        required: true
     }
 });
 
@@ -39,5 +43,5 @@ userSchema.pre("save", function(next){
     }).catch((err)=>console.log(`Error occurred when salting ${err}`));
 });
 
-const userModel=mongoose.model("User", userSchema);
+const userModel=mongoose.model("Users", userSchema);
 module.exports=userModel;

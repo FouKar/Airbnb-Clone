@@ -136,14 +136,10 @@ exports.userFormValidation=(req,res,next)=>{
       .catch((error) => {
         console.error(error)
       })
-          res.render("dashboard",{
-            em:inData.eM,
-            fName: inData.fN,
-            lName: inData.lN
-        });
+      next();
     })
         .catch((inData) => {
-          res.render("register", {
+          res.render("User/register", {
             fN: inData.fN,
             fNmErr: inData.fNmErr,
             lN: inData.lN,
@@ -164,6 +160,7 @@ exports.userFormValidation=(req,res,next)=>{
             bYrErr:inData.bYrErr
           });
         });
+
 };
 
     exports.loginValidation=(req,res,next)=>{
@@ -199,12 +196,10 @@ exports.userFormValidation=(req,res,next)=>{
           
           login
           .then((inData) => {
-              res.render("dashboard",{
-                em:inData.email
-              });
+              next();
             })
             .catch((inData) => {
-              res.render("login", {
+              res.render("User/login", {
                 em: inData.email,
                 pswd: inData.password,
                 emErr: inData.emailErr,
