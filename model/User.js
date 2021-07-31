@@ -40,4 +40,4 @@ userSchema.pre("save", function(next){
 });
 
 const userModel=mongoose.model("User", userSchema);
-module.exports=UserModel;
+module.exports=userModel;

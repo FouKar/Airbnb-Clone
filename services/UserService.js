@@ -19,8 +19,8 @@ exports.getAdminDashboard=(req,res,next)=>{
 };
 exports.processUserFormData=(req,res)=>{
     const newUser={
-        firstName=req.body.fName,
-        lastName=req.body.lName,
+        firstName:req.body.fName,
+        lastName:req.body.lName,
         telephone:req.body.phone,
         email:req.body.emailLogReg,
         password:req.body.passLogReg

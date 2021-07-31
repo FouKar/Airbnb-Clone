@@ -12,8 +12,7 @@ const dotenv=require('dotenv');
 require('dotenv').config({path: 'keys.env'});
 const HTTP_PORT = process.env.PORT;
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static("./public"));
+
 
 app.set("view engine", "hbs");
 app.engine(
@@ -30,7 +29,10 @@ app.use(session({
 }));
 app.use((req,res,next)=>{
   res.locals.user=req.session.userInfo;
-})
+});
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static("./public"));
+app.use("/User/", userController);
 app.get("/", (req, res) => {
   res.render("home", {
     data: roomDb.room,
