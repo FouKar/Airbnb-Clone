@@ -22,3 +22,13 @@ For this assignment, we used the SendGrid API to send emails to the client
 upon Registering on the website. 
 
 
+## User Registration and Authentication, 
+For assignment 3, we are registering the users on a MongoDB Database. In order to do this we used Mongoose module:
+>$ npm install mongoose
+
+For User authentication and encryption we used the middleware, bCrypt:
+>$ npm install bCrypt
+
+## User Sessions
+For creating, destroying and validating user sessions, we used the middleware express-sessions:
+>$ npm install express-sessions
