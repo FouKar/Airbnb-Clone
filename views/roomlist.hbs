@@ -1,6 +1,24 @@
 <div class="album py-5 bg-light">
   <div class="container">
-    <h2>Rooms Currently Available</h2>
+    <h2 class="text-center">Rooms Currently Available</h2>
+    <form action="" method="post" action="/room/search">
+      <div class="mt-4 mb-4 input-group d-flex flex-row justify-content-center">
+        <div class="form-outline">
+          <input
+            id="search-input"
+            type="search"
+            id="form1"
+            class="form-control"
+            placeholder="Search City"
+            name="location"
+          />
+
+        </div>
+        <button type="submit" class="btn btn-danger">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </form>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
       {{#each data}}

@@ -1,18 +1,17 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
-const userController=require('./controller/User.js');
-const session=require("express-session");
+const userController = require("./controller/User.js");
+const session = require("express-session");
+const rooms = require("./model/rooms.js");
 const multer = require("multer");
-const mongoose=require("mongoose");
-const bcrypt=require("bcrypt");
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const roomDb = require("./model/rooms.js");
-const bodyParser=require("body-parser");
+const bodyParser = require("body-parser");
 const app = express();
-const dotenv=require('dotenv');
-require('dotenv').config({path: 'keys.env'});
+const dotenv = require("dotenv");
+require("dotenv").config({ path: "keys.env" });
 const HTTP_PORT = process.env.PORT;
-
-
 
 app.set("view engine", "hbs");
 app.engine(
@@ -21,14 +20,16 @@ app.engine(
     extname: "hbs",
   })
 );
-app.use(session({
-  secret:`${process.env.SECRET_KEY}`,
-  resave:false,
-  saveUninitialized: true,
-  //cookie: {secure:true}-> Only works for HTTPS. We are using The HTTP Protocol
-}));
-app.use((req,res,next)=>{
-  res.locals.user=req.session.userInfo;
+app.use(
+  session({
+    secret: `${process.env.SECRET_KEY}`,
+    resave: false,
+    saveUninitialized: true,
+    //cookie: {secure:true}-> Only works for HTTPS. We are using The HTTP Protocol
+  })
+);
+app.use((req, res, next) => {
+  res.locals.user = req.session.userInfo;
   next();
 });
 app.use(express.urlencoded({ extended: false }));
@@ -45,8 +46,14 @@ app.get("/roomlist", (req, res) => {
     data: roomDb.room,
   });
 });
-
-
+app.post("/search", (req, res) => {
+  let loc = req.body.location;
+  rooms.find({ city: loc }).then((rm) => {
+    res.render("roomlist", {
+      data: rm,
+    });
+  });
+});
 
 app.use((req, res, next) => {
   res.status(404).send("Sorry, Page Not Found! Try another link.");
@@ -55,13 +62,15 @@ app.use((req, res, next) => {
 app.listen(HTTP_PORT, () => {
   console.log("Listening on PORT: " + HTTP_PORT);
 
-  mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING,{
-    useNewUrlParser: true,
-    useUnifiedTopology:true
-  }).then(()=>{
-    console.log(`Connected to MongoDB`);
-  }).catch((err)=>{
-    console.log(`Error ${err}`);
-  });
+  mongoose
+    .connect(process.env.MONGO_DB_CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log(`Connected to MongoDB`);
+    })
+    .catch((err) => {
+      console.log(`Error ${err}`);
+    });
 });
-

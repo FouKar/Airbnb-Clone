@@ -76,8 +76,8 @@ exports.processLogin = (req, res) => {
 };
 exports.createRoom = (req, res) => {
   if (req.session.userInfo.type === "Admin") {
-    res.render("User/adminModule.hbs");
+    res.render("Rooms/adminModule.hbs");
   } else {
-    res.redirect("/dashboard");
+    res.redirect("/User/dashboard");
   }
 };
