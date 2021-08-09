@@ -1,7 +1,7 @@
 <div class="album py-5 bg-light">
   <div class="container">
     <h2 class="text-center">Rooms Currently Available</h2>
-    <form action="" method="post" action="/room/search">
+    <form method="post" action="/room/search">
       <div class="mt-4 mb-4 input-group d-flex flex-row justify-content-center">
         <div class="form-outline">
           <input
@@ -10,7 +10,7 @@
             id="form1"
             class="form-control"
             placeholder="Search City"
-            name="location"
+            name="city"
           />
 
         </div>
@@ -24,7 +24,7 @@
       {{#each data}}
         <div class="col mt-3">
           <div class="card shadow-sm">
-            <img src="{{this.image}}" height="225px" alt="" />
+            <img src="/{{this.file}}" height="225px" alt="" />
             <div class="card-header text-center"><b>{{this.title}}</b></div>
             <div class="card-body">
               <p class="card-text">{{this.location}}</p>

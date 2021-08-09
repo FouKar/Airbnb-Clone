@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const { schema } = (module.exports.room = [
+const { Schema } = mongoose;
+const bcrypt = require("bcrypt");
+const room = [
   {
     title: "Three Bed House w/ Cozy Furniture",
     description: `1000 Square Feet Three Bedroom house with large windows and skylights above the boutique.
@@ -24,7 +26,7 @@ const { schema } = (module.exports.room = [
     province: "Ontario",
     country: "Canada",
     price: "$129.99",
-    image: "img/room1.jpeg",
+    file: "img/room1.jpeg",
   },
   {
     title: "Two Bed Apartment w/ lots of Sunlight",
@@ -39,7 +41,7 @@ const { schema } = (module.exports.room = [
     province: "Quebec",
     country: "Canada",
     price: "$69.99",
-    image: "img/room2.jpeg",
+    file: "img/room2.jpeg",
   },
   {
     title: "Stunning 7 Bed Luxury Home",
@@ -55,7 +57,7 @@ const { schema } = (module.exports.room = [
     province: "British Columbia",
     country: "Canada",
     price: "$299.99",
-    image: "img/room3.jpeg",
+    file: "img/room3.jpeg",
   },
   {
     title: "Cozy Attic for Bachelor",
@@ -70,7 +72,7 @@ const { schema } = (module.exports.room = [
     province: "Ontario",
     country: "Canada",
     price: "$49.99",
-    image: "img/room4.jpeg",
+    file: "img/room4.jpeg",
   },
   {
     title: "2 Bedroom Condo w. Outdoor Patio",
@@ -91,7 +93,7 @@ const { schema } = (module.exports.room = [
     province: "Ontario",
     country: "Canada",
     price: "$139.99",
-    image: "img/room5.jpeg",
+    file: "img/room5.jpeg",
   },
   {
     title: "Outdoor Space Rental for Large Party",
@@ -115,6 +117,40 @@ const { schema } = (module.exports.room = [
     province: "Ontario",
     country: "Canada",
     price: "$399.99",
-    image: "img/room6.jpeg",
+    file: "img/room6.jpeg",
   },
-]);
+];
+
+const roomSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  province: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    default: "User",
+  },
+  file: {
+    type: String,
+    required: false,
+  },
+});
+
+const roomModel = mongoose.model("Rooms", roomSchema);
+module.exports = roomModel;

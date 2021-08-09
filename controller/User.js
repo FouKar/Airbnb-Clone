@@ -15,5 +15,4 @@ router.get("/login", userService.getLoginView);
 router.get("/logout", userService.logout);
 router.post("/log", loginValidation, userService.processLogin);
 router.get("/dashboard", loggedInUser, dashboardLoader);
-router.get("/createroom", loggedInUser, userService.createRoom);
 module.exports = router;

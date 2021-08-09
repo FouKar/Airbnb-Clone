@@ -81,3 +81,10 @@ exports.createRoom = (req, res) => {
     res.redirect("/User/dashboard");
   }
 };
+exports.adminAuth = (req, res, next) => {
+  if (req.session.userInfo.type === "Admin") {
+    next();
+  } else {
+    res.redirect("/User/dashboard");
+  }
+};

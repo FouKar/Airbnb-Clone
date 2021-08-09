@@ -1,9 +1,12 @@
 const express = require("express");
+const fileUpload = require("express-fileupload");
 const exphbs = require("express-handlebars");
 const userController = require("./controller/User.js");
+const roomController = require("./controller/Rooms.js");
 const session = require("express-session");
 const rooms = require("./model/rooms.js");
 const multer = require("multer");
+var upload = multer({ dest: "../public/img/" });
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const roomDb = require("./model/rooms.js");
@@ -12,7 +15,6 @@ const app = express();
 const dotenv = require("dotenv");
 require("dotenv").config({ path: "keys.env" });
 const HTTP_PORT = process.env.PORT;
-
 app.set("view engine", "hbs");
 app.engine(
   "hbs",
@@ -20,6 +22,21 @@ app.engine(
     extname: "hbs",
   })
 );
+app.use((req, res, next) => {
+  //variable is method in the URL
+  if (req.query.method == "PUT") {
+    //Change the HTTP method of the request to PUT
+    req.method = "PUT";
+  } else if (req.query.method == "DELETE") {
+    //Change the HTTP method of the request to DELETE
+    req.method = "DELETE";
+  }
+  next();
+});
+
+//must call fileUpload package before all of your routes
+//attach the package to express
+app.use(fileUpload());
 app.use(
   session({
     secret: `${process.env.SECRET_KEY}`,
@@ -35,24 +52,38 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("./public"));
 app.use("/User/", userController);
+app.use("/room", roomController);
 app.get("/", (req, res) => {
-  res.render("home", {
-    data: roomDb.room,
-  });
+  rooms
+    .find()
+    .lean()
+    .then((rm) => {
+      res.render("home", {
+        data: rm,
+      });
+    });
 });
 
 app.get("/roomlist", (req, res) => {
-  res.render("roomlist", {
-    data: roomDb.room,
-  });
+  rooms
+    .find({})
+    .lean()
+    .then((rm) => {
+      res.render("roomlist", {
+        data: rm,
+      });
+    });
 });
 app.post("/search", (req, res) => {
   let loc = req.body.location;
-  rooms.find({ city: loc }).then((rm) => {
-    res.render("roomlist", {
-      data: rm,
+  rooms
+    .find({ city: loc })
+    .lean()
+    .then((rm) => {
+      res.render("roomlist", {
+        data: rm,
+      });
     });
-  });
 });
 
 app.use((req, res, next) => {

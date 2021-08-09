@@ -3,18 +3,22 @@ const express = require("express");
 const router = express.Router();
 
 //import the taskModel local module .js is optional
-const roomsModel = require("../models/rooms.js");
+const roomsModel = require("../model/rooms.js");
+const multer = require("multer");
 const mongoose = require("mongoose");
 const moment = require("moment");
+const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
-const loggedInUser = require("../middleware/auth");
+const loggedInUser = require("../middleware/authentication");
 const userService = require("../services/UserService.js");
 const dashboardL = require("../middleware/authorization");
+let path = require("path");
+var upload = multer({ dest: "../public/img/" });
 
 router.get("/createroom", loggedInUser, userService.createRoom);
 
 //Route to process user's request and data when the user submits the add task form
-router.post("/add", (req, res) => {
+router.post("/add", userService.adminAuth, (req, res) => {
   /*Rules for inserting into a MongoDB database USING 
       MONGOOSE is to do the following:
   
@@ -39,8 +43,23 @@ router.post("/add", (req, res) => {
   //new document that
   room
     .save()
-    .then(() => {
-      res.redirect("/room/list");
+    .then((rm) => {
+      req.files.file.name = `pro_pic_${rm._id}${
+        path.parse(req.files.file.name).ext
+      }`;
+      req.files.file.mv(`public/img/${req.files.file.name}`).then(() => {
+        //returns a promise
+        roomsModel
+          .updateOne(
+            { _id: rm._id },
+            {
+              file: "img/" + req.files.file.name,
+            }
+          )
+          .then(() => {
+            res.redirect(`/room/list/`);
+          });
+      });
     })
     .catch((err) => {
       console.log(`Error happened when inserting into the 
@@ -48,9 +67,21 @@ router.post("/add", (req, res) => {
     });
   //->.save is an asynchronous method that returns a promise
 });
-
+router.post("/search", (req, res) => {
+  roomsModel
+    .find({ city: { $regex: new RegExp(req.body.city, "i") } })
+    .lean()
+    .then((rooms) => {
+      res.render("roomlist", {
+        data: rooms,
+      });
+    })
+    .catch((err) => {
+      res.render("roomlist");
+    });
+});
 ////Route to fetch all tasks
-router.get("/list", loggedInUser, (req, res) => {
+router.get("/list", userService.adminAuth, (req, res) => {
   /*Pull from the database, get the results that
       was returned and then inject those results into the 
       taskDashboard*/
@@ -96,20 +127,22 @@ router.get("/list", loggedInUser, (req, res) => {
 //dynamic route created
 //edit and delete requires us to use the id
 //Going to prepopulate form data on edit page
-router.get("/edit/:id", loggedInUser, (req, res) => {
+router.get("/edit/:id", userService.adminAuth, (req, res) => {
   /*you want to query the database and pull all the document where the
       id attribute is equal to the id variable specified on the route*/
   //Use the find method when you want to pull multiple documents
   //If we want to pull a single value, we use findById
   //The way how mongoose shows dates and how HTML displays dates, there is a difference
   //You need to format your dates the way HTML formats the date. Use moment package to do so.
-  roomModel
+  roomsModel
     .findById(req.params.id)
     .then((rm) => {
-      const { _id, title, description, dueDate, priority, status } = rm;
+      const { _id, title, description, price, city, country, province, file } =
+        rm;
       res.render("Rooms/editRooms", {
         _id,
         title,
+        description,
         price,
         city,
         province,
@@ -130,7 +163,7 @@ router.get("/edit/:id", loggedInUser, (req, res) => {
 //Route to update user data after they submit the form
 //When you update something, you want to send a put request
 //An HTML form cannot send a PUT request
-router.put("/update/:id", loggedInUser, (req, res) => {
+router.put("/update/:id", userService.adminAuth, (req, res) => {
   const room = {
     title: req.body.title,
     description: req.body.description,
@@ -138,7 +171,6 @@ router.put("/update/:id", loggedInUser, (req, res) => {
     city: req.body.city,
     province: req.body.province,
     country: req.body.country,
-    file: req.body.file,
   };
   roomsModel
     .updateOne({ _id: req.params.id }, room)
@@ -151,11 +183,11 @@ router.put("/update/:id", loggedInUser, (req, res) => {
 });
 
 //router to delete user
-router.delete("/delete/:id", loggedInUser, (req, res) => {
+router.delete("/delete/:id", userService.adminAuth, (req, res) => {
   roomsModel
     .deleteOne({ _id: req.params.id })
     .then(() => {
-      res.redirect("/rooms/list");
+      res.redirect("/room/list");
     })
     .catch((err) => {
       console.log(`Error with updating rooms ${err}`);
