@@ -1,5 +1,4 @@
 function calcPrice() {
-  let price = 0.0;
   let dOne = document.querySelector(".checkIn").value;
   let dTwo = document.querySelector(".checkOut").value;
 
@@ -7,15 +6,20 @@ function calcPrice() {
   let dateTwo = new Date(dTwo);
   const oneDay = 1000 * 60 * 60 * 24;
   let timeInMs = dateTwo.getTime() - dateOne.getTime();
-  const diffInDays = Math.round(timeInMs / oneDay);
-
-  let base = document.querySelector(".subPrice").innerHTML;
-  let basePrice = parseFloat(base.substr(1, base.length));
+  let diffInDays = parseFloat(Math.round(timeInMs / oneDay));
+  let base = document.querySelector(".subPrice").value;
+  let basePrice = parseFloat(base.replace("$", ""));
   let subtotal = document.querySelector(".subPrice");
+  let sbtotal = document.querySelector(".sbtotal");
   let taxes = document.querySelector(".taxes");
   let total = document.querySelector(".totalPrice");
 
-  subtotal.textContent = basePrice;
-  taxes.textContent = basePrice;
-  total.textContent = diffInDays;
+  let price = basePrice * diffInDays;
+  let tx = basePrice * 0.13 * diffInDays;
+  let ttl = basePrice * 0.13 * diffInDays + basePrice * diffInDays;
+  if (dOne && dTwo) {
+    sbtotal.value = "$" + price.toFixed(2);
+    taxes.value = "$" + tx.toFixed(2);
+    total.value = "$" + ttl.toFixed(2);
+  }
 }

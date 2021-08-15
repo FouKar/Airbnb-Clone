@@ -253,6 +253,7 @@
                 id="dForm"
                 name="checkIn"
                 onchange="calcPrice()"
+                required
               />
             </div>
             <div class="col-6 mb-3">
@@ -262,8 +263,8 @@
                 class="form-control checkOut"
                 id="dateForm"
                 name="checkOut"
-                oninput="calcPrice()"
                 onchange="calcPrice()"
+                required
               />
             </div>
           </div>
@@ -285,23 +286,38 @@
             Stay</button>
           <hr class="my-4" />
           <div class="d-flex flex-row mt-3">
-            <div class="d-flex flex-column align-items-start">Subtotal:
+            <div class="d-flex flex-column align-items-start">Per Night:
             </div>
             <div
-              class="d-flex flex-column align-items-end ml-5 subPrice"
-            >{{data.price}}</div>
+              class="d-flex flex-column align-items-end ml-5"
+            ><input type="text" class="subPrice" name="subPrice" value="{{data.price}}" readonly></input></div>
+            
+          </div>
+          <div class="d-flex flex-row mt-3">
+            <div class="d-flex flex-column align-items-start">Subtotal:
+            </div>
+            <div class="d-flex flex-column align-items-end ml-5">
+              <input
+                type="text"
+                class="sbtotal"
+                name="sbtotal"
+                id=""
+                readonly
+              />
+            </div>
           </div>
           <div class="d-flex flex-row mt-3">
             <div class="d-flex flex-column align-items-start">Taxes:
             </div>
-            <div class="d-flex flex-column align-items-end ml-5 taxes"></div>
+            <div class="d-flex flex-column align-items-end ml-5 "><input type="text"  class="taxes" name="taxes" readonly></div>
           </div>
           <div class="d-flex flex-row mt-3">
             <div class="d-flex flex-column align-items-start">Total:
             </div>
             <div
-              class="d-flex flex-column align-items-end ml-5 totalPrice"
-            ></div>
+              class="d-flex flex-column align-items-end ml-5"
+            >
+            <input type="text" name="totalPrice" class="totalPrice" readonly></div>
           </div>
         </form>
       </div>

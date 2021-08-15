@@ -209,50 +209,33 @@ router.get("/", (req, res) => {
   }
 });
 router.post("/book", (req, res) => {
-  let book = new Promise((resolve, reject) => {
-    let returnObj = {
-      cIn: null,
-      cOut: null,
-      gt: null,
-      cInErr: null,
-      cOutErr: null,
-      gtErr: null,
+  booking.then((inData) => {
+    const sgMail = require("@sendgrid/mail");
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+      to: `${req.session.userInfo.email}`, // Change to your recipient
+      from: "fouzan.mdkarim@gmail.com", // Change to your verified sender
+      subject: "Igloo Booking Confirmation",
+      text: `${req.session.userInfo.firstName} ${req.session.userInfo.lastName}, Here are your reservation details:`,
+      html: `Check-In Date: <strong>${inData.cIn}</strong><br>
+             Check-Out Date: <strong>${inData.cOut}</strong>
+             # of Guests ${inData.guests}
+             Number of Nights ${inData.nights}
+             Price Per Night: ${inData.priceNight}
+             Subtotal: ${inData.subtotal}
+             Taxes: ${inData.taxes}
+             Total: ${inData.total}
+             `,
     };
-    if (req.body.checkIn && req.body.checkOut && req.body.guests) {
-      returnObj.cIn = req.body.passLog;
-      returnObj.email = req.body.emailLog;
-      returnObj.gt = req.body.guests;
-      resolve(returnObj);
-      return;
-    } else if (req.body.emailLog.length > 0) {
-      returnObj.email = req.body.emailLog;
-      returnObj.passErr = "Please Enter your password";
-      reject(returnObj);
-      return;
-    } else if (req.body.passLog.length > 0) {
-      returnObj.password = req.body.passLog;
-      returnObj.emailErr = "Please Enter your email";
-      reject(returnObj);
-      return;
-    } else {
-      returnObj.passErr = "Please Enter your password";
-      returnObj.emailErr = "Please Enter your email";
-      reject(returnObj);
-      return;
-    }
-  });
-
-  login
-    .then((inData) => {
-      next();
-    })
-    .catch((inData) => {
-      res.render("User/login", {
-        em: inData.email,
-        pswd: inData.password,
-        emErr: inData.emailErr,
-        pErr: inData.passErr,
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log("Email sent");
+      })
+      .catch((error) => {
+        console.error(error);
       });
-    });
+    next();
+  });
 });
 module.exports = router;
