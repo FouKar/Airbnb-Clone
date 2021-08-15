@@ -33,5 +33,6 @@
   "bugs": {
     "url": "https://github.com/FouKar/Web322-A2/issues"
   },
-  "homepage": "https://github.com/FouKar/Web322-A2#readme"
+  "homepage": "https://github.com/FouKar/Web322-A2#readme",
+  "devDependencies": {}
 }

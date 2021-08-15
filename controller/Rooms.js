@@ -13,7 +13,6 @@ const loggedInUser = require("../middleware/authentication");
 const userService = require("../services/UserService.js");
 const dashboardL = require("../middleware/authorization");
 let path = require("path");
-var upload = multer({ dest: "../public/img/" });
 
 router.get("/createroom", loggedInUser, userService.createRoom);
 
@@ -191,6 +190,69 @@ router.delete("/delete/:id", userService.adminAuth, (req, res) => {
     })
     .catch((err) => {
       console.log(`Error with updating rooms ${err}`);
+    });
+});
+router.get("/", (req, res) => {
+  if (req.query.id) {
+    roomsModel
+      .findById(req.query.id)
+      .lean()
+      .then((rm) => {
+        rm._id = rm._id.toString();
+        res.render("Rooms/roomDetails", {
+          data: rm,
+        });
+      })
+      .catch(() => {
+        res.sendStatus(404);
+      });
+  }
+});
+router.post("/book", (req, res) => {
+  let book = new Promise((resolve, reject) => {
+    let returnObj = {
+      cIn: null,
+      cOut: null,
+      gt: null,
+      cInErr: null,
+      cOutErr: null,
+      gtErr: null,
+    };
+    if (req.body.checkIn && req.body.checkOut && req.body.guests) {
+      returnObj.cIn = req.body.passLog;
+      returnObj.email = req.body.emailLog;
+      returnObj.gt = req.body.guests;
+      resolve(returnObj);
+      return;
+    } else if (req.body.emailLog.length > 0) {
+      returnObj.email = req.body.emailLog;
+      returnObj.passErr = "Please Enter your password";
+      reject(returnObj);
+      return;
+    } else if (req.body.passLog.length > 0) {
+      returnObj.password = req.body.passLog;
+      returnObj.emailErr = "Please Enter your email";
+      reject(returnObj);
+      return;
+    } else {
+      returnObj.passErr = "Please Enter your password";
+      returnObj.emailErr = "Please Enter your email";
+      reject(returnObj);
+      return;
+    }
+  });
+
+  login
+    .then((inData) => {
+      next();
+    })
+    .catch((inData) => {
+      res.render("User/login", {
+        em: inData.email,
+        pswd: inData.password,
+        emErr: inData.emailErr,
+        pErr: inData.passErr,
+      });
     });
 });
 module.exports = router;
