@@ -249,18 +249,21 @@
               <small>CHECK-IN</small>
               <input
                 type="date"
-                class="form-control"
+                class="form-control checkIn"
                 id="dForm"
                 name="checkIn"
+                onchange="calcPrice()"
               />
             </div>
             <div class="col-6 mb-3">
               <small>CHECK-OUT</small>
               <input
                 type="date"
-                class="form-control"
+                class="form-control checkOut"
                 id="dateForm"
                 name="checkOut"
+                oninput="calcPrice()"
+                onchange="calcPrice()"
               />
             </div>
           </div>
@@ -285,18 +288,20 @@
             <div class="d-flex flex-column align-items-start">Subtotal:
             </div>
             <div
-              class="d-flex flex-column align-items-end ml-5"
+              class="d-flex flex-column align-items-end ml-5 subPrice"
             >{{data.price}}</div>
           </div>
           <div class="d-flex flex-row mt-3">
             <div class="d-flex flex-column align-items-start">Taxes:
             </div>
-            <div class="d-flex flex-column align-items-end ml-5"></div>
+            <div class="d-flex flex-column align-items-end ml-5 taxes"></div>
           </div>
           <div class="d-flex flex-row mt-3">
             <div class="d-flex flex-column align-items-start">Total:
             </div>
-            <div class="d-flex flex-column align-items-end ml-5"></div>
+            <div
+              class="d-flex flex-column align-items-end ml-5 totalPrice"
+            ></div>
           </div>
         </form>
       </div>
