@@ -209,33 +209,33 @@ router.get("/", (req, res) => {
   }
 });
 router.post("/book", (req, res) => {
-  booking.then((inData) => {
-    const sgMail = require("@sendgrid/mail");
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const msg = {
-      to: `${req.session.userInfo.email}`, // Change to your recipient
-      from: "fouzan.mdkarim@gmail.com", // Change to your verified sender
-      subject: "Igloo Booking Confirmation",
-      text: `${req.session.userInfo.firstName} ${req.session.userInfo.lastName}, Here are your reservation details:`,
-      html: `Check-In Date: <strong>${inData.cIn}</strong><br>
-             Check-Out Date: <strong>${inData.cOut}</strong>
-             # of Guests ${inData.guests}
-             Number of Nights ${inData.nights}
-             Price Per Night: ${inData.priceNight}
-             Subtotal: ${inData.subtotal}
-             Taxes: ${inData.taxes}
-             Total: ${inData.total}
+  const sgMail = require("@sendgrid/mail");
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
+    to: `${req.session.userInfo.email}`, // Change to your recipient
+    from: "fouzan.mdkarim@gmail.com", // Change to your verified sender
+    subject: `Booking Confirmation ${req.body.title}`,
+    text: `${req.session.userInfo.firstName} ${req.session.userInfo.lastName}, Here are your reservation details:`,
+    html: `Hotel Name: ${req.body.title}<br>
+    Location: ${req.body.city}, ${req.body.province}, ${req.body.country}<br>
+    Check-In Date: <strong>${req.body.checkIn}</strong><br>
+             Check-Out Date: <strong>${req.body.checkOut}</strong><br>
+             # of Guests ${req.body.guests}<br>
+             Number of Nights ${req.body.noNights}<br>
+             Price Per Night: ${req.body.subPrice}<br>
+             Subtotal: ${req.body.sbtotal}<br>
+             Taxes: ${req.body.taxes}<br>
+             Total: ${req.body.totalPrice}<br>
              `,
-    };
-    sgMail
-      .send(msg)
-      .then(() => {
-        console.log("Email sent");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    next();
-  });
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+      res.redirect("/");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 });
 module.exports = router;
