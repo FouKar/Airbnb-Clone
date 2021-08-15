@@ -13,6 +13,7 @@ function calcPrice() {
   let sbtotal = document.querySelector(".sbtotal");
   let taxes = document.querySelector(".taxes");
   let total = document.querySelector(".totalPrice");
+  let nights = document.querySelector(".noNights");
 
   let price = basePrice * diffInDays;
   let tx = basePrice * 0.13 * diffInDays;
@@ -21,5 +22,6 @@ function calcPrice() {
     sbtotal.value = "$" + price.toFixed(2);
     taxes.value = "$" + tx.toFixed(2);
     total.value = "$" + ttl.toFixed(2);
+    nights.value = diffInDays;
   }
 }
