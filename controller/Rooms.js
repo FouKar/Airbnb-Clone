@@ -236,6 +236,9 @@ router.post("/book", (req, res) => {
     })
     .catch((error) => {
       console.error(error);
+      res.render("roomDetails", {
+        data: req.body.id,
+      });
     });
 });
 module.exports = router;
