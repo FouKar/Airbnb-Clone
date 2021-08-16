@@ -4,7 +4,6 @@ const router = express.Router();
 
 //import the taskModel local module .js is optional
 const roomsModel = require("../model/rooms.js");
-const multer = require("multer");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const bodyParser = require("body-parser");
