@@ -197,7 +197,7 @@ router.get("/", (req, res) => {
       .findById(req.query.id)
       .lean()
       .then((rm) => {
-        rm._id = rm._id.toString();
+        rm.id = rm._id.toString();
         res.render("Rooms/roomDetails", {
           data: rm,
         });
@@ -208,14 +208,15 @@ router.get("/", (req, res) => {
   }
 });
 router.post("/book", (req, res) => {
-  const sgMail = require("@sendgrid/mail");
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  const msg = {
-    to: `${req.session.userInfo.email}`, // Change to your recipient
-    from: "fouzan.mdkarim@gmail.com", // Change to your verified sender
-    subject: `Booking Confirmation ${req.body.title}`,
-    text: `${req.session.userInfo.firstName} ${req.session.userInfo.lastName}, Here are your reservation details:`,
-    html: `Hotel Name: ${req.body.title}<br>
+  if (req.session.userInfo) {
+    const sgMail = require("@sendgrid/mail");
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+      to: `${req.session.userInfo.email}`, // Change to your recipient
+      from: "fouzan.mdkarim@gmail.com", // Change to your verified sender
+      subject: `Booking Confirmation ${req.body.title}`,
+      text: `${req.session.userInfo.firstName} ${req.session.userInfo.lastName}, Here are your reservation details:`,
+      html: `Hotel Name: ${req.body.title}<br>
     Location: ${req.body.city}, ${req.body.province}, ${req.body.country}<br>
     Check-In Date: <strong>${req.body.checkIn}</strong><br>
              Check-Out Date: <strong>${req.body.checkOut}</strong><br>
@@ -226,18 +227,19 @@ router.post("/book", (req, res) => {
              Taxes: ${req.body.taxes}<br>
              Total: ${req.body.totalPrice}<br>
              `,
-  };
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log("Email sent");
-      res.redirect("/");
-    })
-    .catch((error) => {
-      console.error(error);
-      res.render("roomDetails", {
-        data: req.body.id,
+    };
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log("Email sent");
+        res.redirect("/");
+      })
+      .catch((error) => {
+        console.error(error);
+        res.redirect(`/room/?id=${req.body.idval}`);
       });
-    });
+  } else {
+    res.redirect(`/room/?id=${req.body.idval}`);
+  }
 });
 module.exports = router;
