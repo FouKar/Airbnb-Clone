@@ -1,5 +1,5 @@
-# Web322-A2
-Assignment 2 for WEB322
+# Airbnb Clone Website
+Room Rental Service Application that mimics Airbnb.
 
 ##  Express-Handlebars Views
 * Home Page
